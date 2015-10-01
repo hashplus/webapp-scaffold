@@ -1,0 +1,157 @@
+extends tmpl/layout/layout
+
+block hero_unit
+  h1(style= hero_unit.h1_style) 'Allo, 'Allo!!
+  p You now have
+  ul
+    li HTML5 Boilerplate
+    li ES6
+    li Sass
+    li Modernizr
+    li jQuery
+    li Compass
+
+block practise
+  // [attributes]
+  a(href='google.com') Google
+  - var authenticated = true
+  a.button(href='google.com', class=authenticated ? 'authed': 'anon') Google
+
+  input(
+    type= 'checkbox'
+    name= 'agreement'
+    checked
+  )
+
+  - var classes = ['foo', 'bar', 'baz']
+  a(class=classes) hehe
+  //- the class attribute may also be repeated to merge arrays
+  a.bing(class=classes class=['bing']) hhe
+
+  - var currentUrl = '/about'
+  a(class={active: currentUrl === '/'} href='/') Home
+  a(class={active: currentUrl === '/about'} href='/about') About
+
+  #foo(data-bar="foo")&attributes(practise)
+
+  // [case]
+  - var friends = 10
+  case friends
+    when 0
+      span you have no friends
+    when 1
+      span you have a friend
+    default
+      span you have #{friends} friends
+  // case full through
+  // block expansion
+  - var friends = 1
+  case friends
+    when 0: p you have no friends
+    when 1: p you have a friend
+    default: p you have #{friends} friends
+
+  // [code]
+  // unbuffered code
+  - for (var x = 0; x < 3; x ++ )
+    li item
+
+  -
+    list = ['uno', 'dos', 'tres', 'cuatro', 'cinco', 'seis']
+  each item in list
+    li= item
+
+  // buffered code
+  p
+    = 'this code is <escaped>!'
+
+  p!= 'this code is <i>not</i> escaped!'
+
+  // comments
+  // just some paragraphs
+  //- will not output within markup
+  //
+    As much text as you want
+    can go here.
+
+  // [conditionals]
+  - var user = {description: 'foo bar baz', name: 'hashplus'}
+  - var authorised = false
+  #user
+    if user.description
+      h2 Description
+      p.description= user.description
+    else if authorised
+      h2 Description
+      p.description.
+        User has no description,
+        why not add one...
+    else
+      h1 Description
+      p.description User has no description
+
+  unless user.isAnonymous
+    p You're logged in as #{user.name}
+
+  // [iteration]
+  ul
+    each val, index in ['zero', 'one', 'two']
+      li= index + ': ' + val
+  - var n = 0
+  ul
+    while n < 4
+      li= n++
+
+  // [mixins]
+  mixin list
+    ul
+      li foo
+      li bar
+      li baz
+  +list
+
+  mixin pet(name)
+    li.pet= name
+  ul
+    +pet('cat')
+    +pet('dog')
+    +pet('pig')
+
+  // mixin blocks
+  mixin article(title)
+    .article
+      .article-wrapper
+        h1= title
+        if block
+          block
+        else
+          p No content provided
+
+  +article('Hello world')
+  +article('Hello world')
+    p This is my Amazing article
+
+  // mixin attributes
+  mixin link(href, name)
+    //- attributes == {class: 'btn'}
+    a(class!=attributes.class, href=href)= name
+  +link('/foo', 'foo')(class='btn')
+  // mixin &attributes
+  mixin link(href, name)
+    a(href=href)&attributes(attributes)= name
+  +link('/foo', 'foo')(class='btn')
+
+  // rest arguments
+  mixin list(id, ...items)
+    ul(id=id)
+      each item in items
+        li= item
+
+  +list('my-list', 1, 2, 3, 4)
+
+  // [plain text]
+  | Plain text can include <strong>html</strong>
+  p
+    | It must always be on its own line
+  p.
+    It must always be on its own line

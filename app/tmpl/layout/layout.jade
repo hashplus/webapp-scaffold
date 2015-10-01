@@ -1,0 +1,41 @@
+include ../mixins/ga
+
+doctype html
+head.no-js(lang='en')
+  meta(charset='utf-8')
+  meta(name='description' content= description)
+  meta(name='keywords' content= keywords)
+  meta(name='viewport', content='width=device-width, initial-scale=1.0')
+  title= title ? title : 'main page'
+  link(rel='apple-touch-icon', href='apple-touch-icon.png')
+
+  // build:css styles/vendor.css
+  // bower:css
+  // endbower
+  // endbuild
+
+  // build:css styles/main.css
+  link(rel='stylesheet' href='styles/main.css')
+  // endbuild
+
+  // build:js scripts/vendor/modernizr.js
+  script(src='/bower_components/modernizr/modernizr.js')
+  // endbuild
+body
+  .container
+    main.hero-unit
+      block hero_unit
+
+  .practise
+    block practise
+  if ga_id
+    +ga(ga_id)
+  // build:js scripts/vendor.js
+  // bower.js
+  script(src='/bower_components/jquery/dist/jquery.js')
+  // endbower
+  // endbuild
+
+  // build:js scripts/main.js
+  script(src='scripts/main.js')
+  // endbuild

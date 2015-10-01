@@ -1,0 +1,40 @@
+// bower:scss
+// endbower
+body {
+  background: #fafafa;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  color: #333;
+  margin: 0;
+}
+
+.hero-unit {
+  width: 300px;
+  font-size: 18px;
+  font-weight: 200;
+  line-height: 18px;
+  background-color: #eee;
+  border-radius: 6px;
+  padding: 60px;
+  h1 {
+    font-size: 50px;
+    line-height: 1;
+    letter-spacing: -1px;
+    margin: 0;
+  }
+}
+
+.practise {
+  .button {
+    background-color: #f0f;
+    &.authed {
+      font: {
+        size: 50px;
+      }
+    }
+    &.naon {
+      font: {
+        size: 30px;
+      }
+    }
+  }
+}

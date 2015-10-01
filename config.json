@@ -1,0 +1,14 @@
+{
+  "title": "Main Page :) ~~",
+  "description": "this is description",
+  "keywords": "this is keywords",
+  "ga_id": "UA-36116321-5",
+  "hero_unit": {
+    "h1_style": {
+      "color": "#f00"
+    }
+  },
+  "practise":{
+    "data-foo": "haha"
+  }
+}
