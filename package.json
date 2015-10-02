@@ -1,7 +1,12 @@
 {
-  "private": true,
+  "name": "webapp-scaffold",
   "engines": {
     "node": ">=0.12.0"
+  },
+  "version": "v0.1.0",
+  "license": "MIT",
+  "description": "simple webapp scaffold.",
+  "scripts": {
   },
   "devDependencies": {
     "babel-core": "^5.5.6",
