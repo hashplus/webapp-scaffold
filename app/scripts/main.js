@@ -9,7 +9,7 @@ var nums = evens.map((v, i) => v + i);
 var fives = [];
 // Statement bodies
 nums.forEach(v => {
-  if( v % 5 === 0 ){
+  if (v % 5 === 0) {
     fives.push(v);
   }
 });
@@ -64,7 +64,7 @@ var bob = {
 
 // Template Strings
 // Unescaped template strings
-String.raw`In ES5 "\n" is a line-feed.`;
+String.raw `In ES5 "\n" is a line-feed.`;
 
 /*GET`http://foo.org/bar?a=${a}&b=${b}
 Content-Type: application/json
@@ -79,11 +79,15 @@ var [a, , b] = [1, 2, 3];
 // var {op: a, lhs: {op: b}, rhs: c} = getASTNode();
 
 // Can be used in parameter position
-function g({name: x}) {
+function g({
+  name: x
+}) {
   console.log(x);
 }
 
-g({name: 5});
+g({
+  name: 5
+});
 
 // Fail-soft destructuring
 var [a] = [];
@@ -100,13 +104,13 @@ function f(x, y = 12) {
 }
 f(3) == 15;
 
-function f(x, ...y){
+function f(x, ...y) {
   return x * y.length;
 }
 
 f(3, 'hello', true) == 6;
 
-function f(x, y, z){
+function f(x, y, z) {
   return x + y + z;
 }
 
@@ -134,9 +138,10 @@ f(...[1, 2, 3]) == 6;
 // Generators
 
 let fibonacci = {
-  [Symbol.iterator]: function* (){
-    let pre = 0, cur = 1;
-    for(;;){
+  [Symbol.iterator]: function*() {
+    let pre = 0,
+      cur = 1;
+    for (;;) {
       let temp = pre;
       pre = cur;
       cur += temp;
@@ -145,8 +150,8 @@ let fibonacci = {
   }
 };
 
-for(let n of fibonacci) {
-  if(n > 10)
+for (let n of fibonacci) {
+  if (n > 10)
     break;
   // console.log(n);
 }
@@ -171,12 +176,16 @@ console.log(m.get(s));
 
 // Weak Maps
 var wm = new WeakMap;
-wm.set(s, {extra: 42});
+wm.set(s, {
+  extra: 42
+});
 console.log(wm.size);
 
 // Weak Sets
 var ws = new WeakSet();
-ws.add({data: 42});
+ws.add({
+  data: 42
+});
 console.log(ws);
 
 // Proxying a normal object
@@ -206,13 +215,17 @@ let p = timeout(1000).then(() => {
 });
 
 // Reflect API
-var o = {a: 1};
-Object.defineProperty(o, 'b', {value: 2});
+var o = {
+  a: 1
+};
+Object.defineProperty(o, 'b', {
+  value: 2
+});
 o[Symbol('c')] = 3;
 
 console.log(Reflect.ownKeys(o));
 
-function C(a, b){
+function C(a, b) {
   this.c = a + b;
 }
 
@@ -288,36 +301,97 @@ console.log(factorial(100000));
 }
 */
 
+/*let httpPromise = (method, delay = 50) => {
+  return new Promise((resolve, reject) => {
+    let ajax = new XMLHttpRequest;
+    ajax.open(method, `//httpbin.org/${method}`, true);
+    ajax.responseType = 'json';
+    ajax.onload = (e) => {
+      setTimeout(() => {
+        resolve(e.target.response);
+      }, delay);
+    };
+    ajax.send();
+  });
+};
+
 let asyncchronousOperation = () => {
-  let httpPromise = (method, delay = 50) => {
-    return new Promise((resolve, reject) => {
-      let ajax = new XMLHttpRequest;
-      ajax.open(method, `//httpbin.org/${method}`,true);
-      ajax.responseType = 'json';
-      ajax.onload = (e) => {
-        setTimeout(() => {
-          reject(/*e.target.response*/ new Error(method));
-        }, delay);
-      };
-      ajax.send();
-    });
-  };
   let getPromise = httpPromise('get', 150);
   let postPromise = httpPromise('post');
 
   return [postPromise, getPromise];
 };
 
-async function doAsyncOp(){
-  try{
-    let val = await* asyncchronousOperation();
+async function doAsyncOp() {
+  try {
+    let val = await * asyncchronousOperation();
     console.log(val);
     return val;
-  } catch (err){
-    console.error(err);
+  } catch (err) {
+    //console.error(err);
   }
 }
 
-doAsyncOp().then(val => {
-  console.log(val);
-});
+// doAsyncOp().then(val => {
+//   console.log(val);
+// });
+
+
+//  `await` can be only used directly within an `async` function.
+
+async function getAllResult(...methods) {
+  return await * methods.map(async function(method) {
+    return await new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve(httpPromise(method));
+      }, 2000);
+    });
+  });
+}
+
+getAllResult('get', 'post').then(console.log.bind(console));*/
+
+
+let get = (url) => {
+  return new Promise((resolve, reject) => {
+    let req = new XMLHttpRequest;
+    req.open('get', url);
+    req.send();
+    req.responseType = 'json';
+    req.onload = () => {
+      if (req.status === 200) {
+        resolve(req.response);
+      } else {
+        reject(Error(req.statusText));
+      }
+    };
+
+    req.onerror = () => {
+      reject(Error('Nextwork error'));
+    };
+  });
+}
+
+// http://it-ebooks-api.info/v1/search/{query}
+// http://it-ebooks-api.info/v1/book/{id}
+
+/*
+An async function returns a Promise, and await accepts a promise. There is no requirement that all async functions be called via await. If you want to use an async function inside a standard JS function, you would directly use the result promise. In your case, calling a function with .call will still return a promise like any other function, so you'd they pass that promise to await:
+
+async function doThing(){
+  let service = new Service();
+
+  var stream = await service.getOrders.call(this, arg1, arg2, arg3)
+  stream.pipe(res);
+}
+ */
+
+async function books(url) {
+  let books =  await* (await get(url)).Books.map((book) => {
+    return get(`http://it-ebooks-api.info/v1/book/${book.ID}`);
+  });
+  return books;
+};
+
+let booksPromise = books('http://it-ebooks-api.info/v1/search/mysql');
+booksPromise.then(console.log.bind(console));
