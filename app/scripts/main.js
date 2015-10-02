@@ -391,11 +391,14 @@ async function doThing(){
  */
 
 async function books(url) {
-  return await* (await get(url)).Books.map((book) => {
-    return get(`http://it-ebooks-api.info/v1/book/${book.ID}`);
-  });
-
+  try{
+    return await* (await get(url)).Books.map((book) => {
+      return get(`http://it-ebooks-api.info/v1/book/${book.ID}`);
+    });
+  }catch(err){
+    console.log(err);
   // return await* [for (book of [1,2,3]) get(`http://it-ebooks-api.info/v1/book/${book.ID}`)];
+  }
 }
 
 let booksPromise = books('http://it-ebooks-api.info/v1/search/mysql');
@@ -660,3 +663,74 @@ class Bird {
 
 let bird = new Bird();
 bird.singMatingCall();
+
+/**
+ * ES7 do expressions
+ * Stage 0
+ */
+
+let x = do {let t = 1; t = t * t + 1; };
+console.log(x);
+
+
+/**
+ * ES7 exponentiationOperator
+ * Stage 2
+ */
+
+console.log(2 ** 3);
+
+/**
+ * ES7 exportExtensions
+ * Stage 1
+ */
+
+
+/**
+ * ES7 functionBind
+ * Stage 0
+ */
+// the traditional way
+// calling a known function with a supplied `this` argument:
+// let hasOwnProp = Object.prototype.hasOwnProperty;
+// let obj = {x: 100};
+// hasOwnProp.call(obj, 'x');
+
+// extracting a method from an object:
+// Promise.resolve(123).then(console.log.bind(console));
+
+// Native syntax for f.bind(self):
+const hasOwnProperty = Object.prototype.hasOwnProperty;
+function hasOwn(obj, key){
+  return obj::hasOwnProperty(key);
+}
+
+let obj2 = {x: 100};
+console.log(hasOwn(obj2, 'x'));
+
+// Calling a superclass constructor:
+// let MySubClass = (x, y, z) => {
+//   this::SuperClass(x);
+//   this.y = y;
+//   this.z = z;
+// };
+
+// Bound-method extraction:
+// var method = obj::obj.foo;
+// Bound-method extraction with implicit object:
+// var method = ::obj.foo;
+
+/* Precedence: should bind just barely weaker than '.' */
+
+/**
+ * ES7 objectRestSpread
+ * Stage 2
+ */
+
+// let {x, y, ...z} = {x: 1, y: 2, a: 3, b: 4};
+// console.log(x, y, z);
+
+/**
+ * ES7 trailingFunctionCommas
+ * Stage 1
+ */
