@@ -57,13 +57,14 @@ gulp.task('jade', () => {
 function lint(files, options) {
   return () => {
     return gulp.src(files)
+      .pipe($.plumber())
+      .pipe($.eslint(options))
+      .pipe($.eslint.format())
+      .pipe($.if(!browserSync.active, $.eslint.failAfterError()))
       .pipe(reload({
         stream: true,
         once: true
-      }))
-      .pipe($.eslint(options))
-      .pipe($.eslint.format())
-      .pipe($.if(!browserSync.active, $.eslint.failAfterError()));
+      }));
   };
 }
 const testLintOptions = {
@@ -72,8 +73,8 @@ const testLintOptions = {
   }
 };
 
-gulp.task('lint', lint('app/scripts/**/*.js'));
-gulp.task('lint:test', lint('test/spec/**/*.js', testLintOptions));
+gulp.task('lint', /*['jscs'], */lint('app/scripts/**/*.js'));
+gulp.task('lint:test', /*['jscs'], */lint('test/spec/**/*.js', testLintOptions));
 
 gulp.task('es6', () => {
   return browserify('app/scripts/main.js', {debug: true})
@@ -81,6 +82,9 @@ gulp.task('es6', () => {
     .transform(babelify.configure({
       stage: 0,
       sourceMaps: 'inline',
+      highlightCode: true,
+      comments: false,
+      compact: false,
       optional: ['runtime']
     }))
     .bundle()
@@ -98,10 +102,8 @@ gulp.task('es6', () => {
 
 gulp.task('jscs', () => {
   return gulp.src('app/scripts/**/*.js')
-    .pipe($.jscs({
-      fix: true
-    }))
-    .pipe(gulp.dest('app/scripts'));
+    .pipe($.jscs())
+    .pipe($.jscsStylish/*.combineWithHintResults*/());
 });
 
 gulp.task('html', es6 ? ['styles', 'es6', 'jade'] : ['styles', 'jade'], () => {
@@ -163,16 +165,20 @@ gulp.task('extras', () => {
 
 gulp.task('clean', del.bind(null, ['.tmp', 'dist']));
 
-gulp.task('serve', es6?['styles', 'es6', 'fonts', 'jade']:['styles', 'fonts', 'jade'], () => {
+gulp.task('serve', es6?['lint', 'styles', 'es6', 'fonts', 'jade']:['lint', 'styles', 'fonts', 'jade'], () => {
   browserSync({
-    notify: false,
+    notify: true,
     port: 9000,
     server: {
       baseDir: ['.tmp', 'app'],
       routes: {
         '/bower_components': 'bower_components'
       }
-    }
+    },
+    logLevel: 'info',
+    logFileChanges: true,
+    logSnippet: true
+    /*tunnel: "my-private-site"*/
   });
 
   gulp.watch([
@@ -181,7 +187,7 @@ gulp.task('serve', es6?['styles', 'es6', 'fonts', 'jade']:['styles', 'fonts', 'j
   ]).on('change', reload);
 
   gulp.watch(['app/**/*.jade', 'config.json'], ['jade']);
-  gulp.watch('app/scripts/**/*.js', ['es6']);
+  gulp.watch('app/scripts/**/*.js', ['lint', 'es6']);
   gulp.watch('app/styles/**/*.scss', ['styles']);
   gulp.watch('app/fonts/**/*', ['fonts']);
   gulp.watch('bower.json', ['wiredep', 'fonts']);

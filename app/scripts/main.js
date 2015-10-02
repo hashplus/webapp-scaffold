@@ -1,28 +1,28 @@
-import MC from './lib/Math';
+// import MC from './lib/Math';
 
 // Arrows and Lexical This
 // Expression bodies
-var evens = [2, 3];
-var odds = evens.map(v => v + 1);
-var nums = evens.map((v, i) => v + i);
+// var evens = [2, 3];
+// var odds = evens.map(v => v + 1);
+// var nums = evens.map((v, i) => v + i);
 
-var fives = [];
+// var fives = [];
 // Statement bodies
-nums.forEach(v => {
-  if (v % 5 === 0) {
-    fives.push(v);
-  }
-});
+// nums.forEach(v => {
+//   if (v % 5 === 0) {
+//     fives.push(v);
+//   }
+// });
 
 // Lexical this
-var bob = {
-  _name: 'Bob',
-  _friends: [],
-  printFriends() {
-    this._friends.forEach(f =>
-      console.log(`${this._name} knows ${f}`));
-  }
-};
+// var bob = {
+//   _name: 'Bob',
+//   _friends: [],
+//   printFriends() {
+//     this._friends.forEach(f =>
+//       console.log(`${this._name} knows ${f}`));
+//   }
+// };
 
 // Classes
 /*class SkinnedMesh extends THREE.Mesh {
@@ -64,7 +64,7 @@ var bob = {
 
 // Template Strings
 // Unescaped template strings
-String.raw `In ES5 "\n" is a line-feed.`;
+// String.raw `In ES5 "\n" is a line-feed.`;
 
 /*GET`http://foo.org/bar?a=${a}&b=${b}
 Content-Type: application/json
@@ -73,48 +73,48 @@ X-Credentials: ${credentials}
 
 // Destructuring
 // list matching
-var [a, , b] = [1, 2, 3];
+// var [a, , b] = [1, 2, 3];
 
 // object matching
 // var {op: a, lhs: {op: b}, rhs: c} = getASTNode();
 
 // Can be used in parameter position
-function g({
-  name: x
-}) {
-  console.log(x);
-}
+// function g({
+//   name: x
+// }) {
+//   console.log(x);
+// }
 
-g({
-  name: 5
-});
+// g({
+//   name: 5
+// });
 
 // Fail-soft destructuring
-var [a] = [];
-a === undefined;
+// var [a] = [];
+// a === undefined;
 
 // Fail-soft destructuring with defaults
-var [a = 1] = [];
-a === 1;
+// var [a = 1] = [];
+// a === 1;
 
 // Default Rest Spread
 
-function f(x, y = 12) {
-  return x + y;
-}
-f(3) == 15;
+// function f(x, y = 12) {
+//   return x + y;
+// }
+// f(3) == 15;
 
-function f(x, ...y) {
-  return x * y.length;
-}
+// function f(x, ...y) {
+//   return x * y.length;
+// }
 
-f(3, 'hello', true) == 6;
+// f(3, 'hello', true) == 6;
 
-function f(x, y, z) {
-  return x + y + z;
-}
+// function f(x, y, z) {
+//   return x + y + z;
+// }
 
-f(...[1, 2, 3]) == 6;
+// f(...[1, 2, 3]) == 6;
 
 // Iterators for...of
 // var fibonacci = {
@@ -151,8 +151,9 @@ let fibonacci = {
 };
 
 for (let n of fibonacci) {
-  if (n > 10)
+  if (n > 10){
     break;
+  }
   // console.log(n);
 }
 
@@ -175,7 +176,7 @@ m.set(s, 34);
 console.log(m.get(s));
 
 // Weak Maps
-var wm = new WeakMap;
+var wm = new WeakMap();
 wm.set(s, {
   extra: 42
 });
@@ -200,48 +201,51 @@ console.log(ws);
 // console.log(p.world);
 
 // Promises
-let timeout = function(duration = 0) {
-  return new Promise((resolve, reject) => {
-    setTimeout(resolve, duration);
-  });
-};
+// let timeout = function(duration = 0) {
+//   return new Promise((resolve) => {
+//     setTimeout(resolve, duration);
+//   });
+// };
 
-let p = timeout(1000).then(() => {
-  return timeout(2000);
-}).then(() => {
-  throw new Error('hmm');
-}).catch(err => {
-  return Promise.all([timeout(100), timeout(200)]);
-});
+// let p = timeout(1000).then(() => {
+//   return timeout(2000);
+// }).then(() => {
+//   throw new Error('hmm');
+// }).catch(err => {
+//   return Promise.all([timeout(100), timeout(200)]);
+// });
 
-// Reflect API
-var o = {
-  a: 1
-};
-Object.defineProperty(o, 'b', {
-  value: 2
-});
-o[Symbol('c')] = 3;
+// // Reflect API
+// var o = {
+//   a: 1
+// };
+// Object.defineProperty(o, 'b', {
+//   value: 2
+// });
+// o[Symbol('c')] = 3;
 
-console.log(Reflect.ownKeys(o));
+// console.log(Reflect.ownKeys(o));
 
-function C(a, b) {
-  this.c = a + b;
-}
+// function C(a, b) {
+//   this.c = a + b;
+// }
 
-var instance = Reflect.construct(C, [20, 22]);
-console.log(instance.c);
+// var instance = Reflect.construct(C, [20, 22]);
+// console.log(instance.c);
 
-function factorial(n, acc = 1) {
-  "use strict";
-  if (n <= 1) return acc;
-  return factorial(n - 1, n * acc);
-}
+// function factorial(n, acc = 1) {
+//   "use strict";
+//   if (n <= 1) return acc;
+//   return factorial(n - 1, n * acc);
+// }
 
 // Stack overflow in most implementations today,
 // but safe on arbitrary inputs in ES2015
-console.log(factorial(100000));
-
+// console.log(factorial(100000));
+/**
+ * ES7 async functions
+ * Stage2
+ */
 // ES7 async functions
 // 1. Promise
 
@@ -354,7 +358,7 @@ getAllResult('get', 'post').then(console.log.bind(console));*/
 
 let get = (url) => {
   return new Promise((resolve, reject) => {
-    let req = new XMLHttpRequest;
+    let req = new XMLHttpRequest();
     req.open('get', url);
     req.send();
     req.responseType = 'json';
@@ -370,7 +374,7 @@ let get = (url) => {
       reject(Error('Nextwork error'));
     };
   });
-}
+};
 
 // http://it-ebooks-api.info/v1/search/{query}
 // http://it-ebooks-api.info/v1/book/{id}
@@ -387,11 +391,272 @@ async function doThing(){
  */
 
 async function books(url) {
-  let books =  await* (await get(url)).Books.map((book) => {
+  return await* (await get(url)).Books.map((book) => {
     return get(`http://it-ebooks-api.info/v1/book/${book.ID}`);
   });
-  return books;
-};
+
+  // return await* [for (book of [1,2,3]) get(`http://it-ebooks-api.info/v1/book/${book.ID}`)];
+}
 
 let booksPromise = books('http://it-ebooks-api.info/v1/search/mysql');
 booksPromise.then(console.log.bind(console));
+
+/**
+ * ES7 class properties
+ * Stage 0
+ * ES Class Fields & Static Properties
+ */
+
+// Part1: Class Instance Fields
+
+class MyClass {
+  static name = 'class';
+  // default value
+  myProp = 24;
+
+  constructor() {
+    console.log(this.myProp);
+  }
+}
+
+// new MyClass;
+console.log(MyClass.name);
+
+/**
+ * ES7 comprehensions
+ * Stage 0
+ */
+
+// Array comprehensions
+// [for (x of [0, 1, 2]) ()=>x][1]()
+// [for (i of numbers) i * 2]
+
+
+// Generator comprehensions
+
+// let gen = (for (i of [ 1, 2, 3 ]) i * i );
+
+// let numbers = [1, 2, 3];
+
+// (function*() {
+//   for(let i of numbers){
+//     yield i * i;
+//   }
+// })();
+
+// gen = (for (i of numbers) i * i);
+
+
+/**
+ * ES7 decorators
+ * Stage 1
+ * ES6 classes only support literal functions as values.
+ * A decorator is:
+ *   + an expression
+ *   + that evaluates to a function
+ *   + that takes the target, name, and property descriptor as arguments
+ *   + and optionally returns a property descriptor to install on the target object
+ */
+
+// A decorator precedes the syntax that defines a property:
+/*function readonly(target, key, descriptor) {
+  descriptor.writable = false;
+  return descriptor;
+}
+
+class Person {
+  first = 'Aiden';
+  last = 'Cao';
+
+  @readonly
+  name() {return `${this.first} ${this.last}`}
+}*/
+
+/*
+before engine install descriptor onto `Person.prototype` the engine first invokes the
+decorator:
+
+let descriptor = {
+  value: specifiedFunction,
+  enumerable: false,
+  configurable: true,
+  writable: true
+};
+
+descriptor = readonly(Person.prototype, 'name', descriptor) || descriptor;
+Object.defineProperty(Person.prototype, 'name', descriptor);
+
+*/
+
+// import {autobind} from 'core-decorators';
+
+/**
+ * @autobind
+ * @type {Decorator}
+ * Forces invocations of this function to always have this refer to the class instance, even if the function is passed around * or would otherwise lose its this context. e.g. var fn = context.method;
+ */
+
+/*class Person {
+  @autobind
+  getPerson() {
+    return this;
+  }
+}
+
+let person = new Person;
+
+let getPerson = person.getPerson;
+console.log(getPerson() === person);*/
+
+/**
+ * @readonly
+ * @type {Decorator}
+ * Marks a property or method as not being writable.
+ */
+// import {readonly} from 'core-decorators';
+
+// class Meal{
+//   @readonly
+//   entree = 'steak';
+// }
+
+/**
+ * @readonly
+ * @type {Decorator}
+ * Checks that the marked method indeed overrides a function with the same signature somewhere on the prototype chain.
+ *
+ * Works with methods and getters/setters. Will ensure name, parameter count, as well as descriptor type (accessor/data).
+ * Provides a suggestion if it finds a method with a similar signature, including slight misspellings.
+ */
+
+// import {override} from 'core-decorators';
+
+// class Parent {
+//   speak(first, second) {}
+// }
+
+// class Child extends Parent {
+//   @override
+//   speak(first, second){}
+// }
+
+
+/**
+ * @deprecate (alias: @deprecated)
+ * @type {Decorator}
+ * Calls console.warn() with a deprecation message. Provide a custom message to override the default one. You can also provide * an options hash with a url, for further reading.
+ */
+
+import {deprecate, suppressWarnings} from 'core-decorators';
+
+class Person {
+  @deprecate
+  facepalm() {}
+
+  @deprecate('We stopped facepalming')
+  facepalmHard() {}
+
+  @deprecate('We stopped facepalming', {url: 'http://knowyourname.com/memes/facepalm'})
+  facepalmHarder() {}
+
+  @suppressWarnings
+  facepalmWithWarnings() {
+    this.facepalm();
+  }
+}
+
+let person = new Person();
+
+person.facepalm();
+person.facepalmHard();
+person.facepalmHarder();
+
+/**
+ * @debounce
+ * @type {Decorator}
+ * Creates a new debounced function which will be invoked after wait milliseconds since the time it was invoked. Default
+ * timeout is 300 ms.
+ *
+ * Optional boolean second argument allows to trigger function on the leading instead of the trailing edge of the wait
+ * interval. Implementation is insired by similar method from UnderscoreJS.
+ */
+
+// import {debounce} from 'core-decorators';
+
+// class Editor {
+//   content = '';
+
+//   @debounce(500)
+//   updateContent(content) {
+//     this.content = content;
+//   }
+// }
+
+/**
+ * @suppressWarnings
+ * @type {Decorator}
+ * Suppresses any JavaScript console.warn() call while the decorated function is called. (i.e. on the stack)
+ * Will not suppress warnings triggered in any async code within.S.
+ */
+
+/**
+ * @nonenumerable
+ * @nonconfigurable
+ * @type {Decorator}
+ * Marks a property or method as not being enumerable.
+ */
+
+// import {decorate} from 'core-decorators';
+// import {memoize} from 'lodash';
+
+// let count = 0;
+
+// class Task {
+//   @decorate(memoize)
+//   doSomethingExpensive(data) {
+//     count++;
+//     // something expensive;
+//     return data;
+//   }
+// }
+
+// let task = new Task();
+// let arr = [1, 2, 3];
+
+// task.doSomethingExpensive(arr);
+// task.doSomethingExpensive(arr);
+
+// console.log(count === 1);
+
+/**
+ * @mixin (alias: @mixins)
+ * @type {Decorator}
+ * Mixes in all property descriptors from the provided Plain Old JavaScript Objects (aka POJOs) as arguments. Mixins are
+ * applied in the order they are passed, but do not override descriptors already on the class, including those inherited
+ * traditionally.
+ */
+
+import {mixin} from 'core-decorators';
+
+const SingerMixin = {
+  sing(sound) {
+    console.log(sound);
+  }
+};
+
+const FlyMixin = {
+  get speed() {},
+  fly() {},
+  land() {}
+};
+
+@mixin(SingerMixin, FlyMixin)
+class Bird {
+  singMatingCall() {
+    console.log('singMatingCall');
+    this.sing('single boy, single boy');
+  }
+}
+
+let bird = new Bird();
+bird.singMatingCall();
