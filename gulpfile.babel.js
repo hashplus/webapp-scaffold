@@ -9,8 +9,7 @@ import source from 'vinyl-source-stream';
 
 import {
   stream as wiredep
-}
-from 'wiredep';
+} from 'wiredep';
 
 const $ = gulpLoadPlugins();
 const reload = browserSync.reload;
@@ -36,7 +35,7 @@ gulp.task('styles', () => {
     }));
 });
 
-function getLocals(){
+function getLocals() {
   var config = require('./config');
   delete require.cache[require.resolve('./config')];
   return config;
@@ -51,7 +50,9 @@ gulp.task('jade', () => {
     }))
     .pipe(gulp.dest('.tmp'))
     .pipe($.size())
-    .pipe(reload({stream: true}));
+    .pipe(reload({
+      stream: true
+    }));
 });
 
 function lint(files, options) {
@@ -73,11 +74,13 @@ const testLintOptions = {
   }
 };
 
-gulp.task('lint', /*['jscs'], */lint('app/scripts/**/*.js'));
-gulp.task('lint:test', /*['jscs'], */lint('test/spec/**/*.js', testLintOptions));
+gulp.task('lint', /*['jscs'], */ lint('app/scripts/**/*.js'));
+gulp.task('lint:test', /*['jscs'], */ lint('test/spec/**/*.js', testLintOptions));
 
 gulp.task('es6', () => {
-  return browserify('app/scripts/main.js', {debug: true})
+  return browserify('app/scripts/main.js', {
+    debug: true
+  })
     .add(require.resolve('babel-core/polyfill'))
     .transform(babelify.configure({
       stage: 0,
@@ -97,13 +100,15 @@ gulp.task('es6', () => {
     // plugin not support stream
     .pipe(gulp.dest('.tmp'))
     .pipe($.size())
-    .pipe(reload({stream: true}));
+    .pipe(reload({
+      stream: true
+    }));
 });
 
 gulp.task('jscs', () => {
   return gulp.src('app/scripts/**/*.js')
     .pipe($.jscs())
-    .pipe($.jscsStylish/*.combineWithHintResults*/());
+    .pipe($.jscsStylish /*.combineWithHintResults*/());
 });
 
 gulp.task('html', es6 ? ['styles', 'es6', 'jade'] : ['styles', 'jade'], () => {
@@ -129,15 +134,15 @@ gulp.task('html', es6 ? ['styles', 'es6', 'jade'] : ['styles', 'jade'], () => {
 gulp.task('images', () => {
   return gulp.src('app/images/**/*')
     .pipe($.if($.if.isFile, $.cache($.imagemin({
-        progressive: true,
-        interlaced: true,
-        // don't remove IDs from SVGs, they are often used
-        // as hooks for embedding and styling
-        svgoPlugins: [{
-          cleanupIDs: false
-        }]
-      }))
-      .on('error', function(err) {
+      progressive: true,
+      interlaced: true,
+      // don't remove IDs from SVGs, they are often used
+      // as hooks for embedding and styling
+      svgoPlugins: [{
+        cleanupIDs: false
+      }]
+    }))
+      .on('error', function (err) {
         // console.log(err);
         this.end();
       })))
@@ -147,8 +152,8 @@ gulp.task('images', () => {
 
 gulp.task('fonts', () => {
   return gulp.src(require('main-bower-files')({
-      filter: '**/*.{eot,svg,ttf,woff,woff2}'
-    }).concat('app/fonts/**/*'))
+    filter: '**/*.{eot,svg,ttf,woff,woff2}'
+  }).concat('app/fonts/**/*'))
     .pipe(gulp.dest('.tmp/fonts'))
     .pipe(gulp.dest('dist/fonts'))
     .pipe($.size());
@@ -165,7 +170,7 @@ gulp.task('extras', () => {
 
 gulp.task('clean', del.bind(null, ['.tmp', 'dist']));
 
-gulp.task('serve', es6?['lint', 'styles', 'es6', 'fonts', 'jade']:['lint', 'styles', 'fonts', 'jade'], () => {
+gulp.task('serve', es6 ? ['lint', 'styles', 'es6', 'fonts', 'jade'] : ['lint', 'styles', 'fonts', 'jade'], () => {
   browserSync({
     notify: true,
     port: 9000,
