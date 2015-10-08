@@ -35,6 +35,24 @@ gulp.task('styles', () => {
     }));
 });
 
+// todo
+gulp.task('compass', () => {
+  return gulp.src('./src/**/*.scss')
+    .pipe($.plumber({
+      errorHandler: function(error){
+        console.log(error.message);
+        this.emit('end');
+      }
+    }))
+    .pipe($.compass({
+      config_file: './config.rb',
+      css: '.tmp/styles',
+      sass: 'app/styles',
+      image: 'app/images'
+    }))
+    .pipe(gulp.dest('.tmp/styles'));
+});
+
 function getLocals() {
   var config = require('./config');
   delete require.cache[require.resolve('./config')];
@@ -92,8 +110,8 @@ gulp.task('es6', () => {
     }))
     .bundle()
     .on('error', function (err) {
-      // console.error(err);
-      this.end();
+      console.log(err.message);
+      this.emit('end');
     })
     .pipe(source('scripts/main.js'))
     //.pipe(buffer())
